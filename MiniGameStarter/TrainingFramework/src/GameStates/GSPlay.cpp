@@ -26,7 +26,7 @@ GSPlay::~GSPlay()
 void GSPlay::Init()
 {
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_play1.tga");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background.tga");
 
 	// background
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
@@ -51,11 +51,11 @@ void GSPlay::Init()
 	m_score->Set2DPosition(Vector2(5, 25));
 
 	shader = ResourceManagers::GetInstance()->GetShader("Animation");
-	texture = ResourceManagers::GetInstance()->GetTexture("Actor1_2.tga");
-	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 9, 6, 3, 0.1f);
+	texture = ResourceManagers::GetInstance()->GetTexture("flappy-bird.tga");
+	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 3, 1, 0, 0.1f);
 	
 	obj->Set2DPosition(240, 400);
-	obj->SetSize(30, 40);
+	obj->SetSize(100, 150);
 	m_listAnimation.push_back(obj);
 	m_KeyPress = 0;
 }
@@ -86,15 +86,19 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 		{
 		case KEY_MOVE_LEFT:
 			m_KeyPress |= 1;
+			printf("%d\n", m_KeyPress);
 			break;
 		case KEY_MOVE_BACKWORD:
 			m_KeyPress |= 1<<1;
+			printf("%d\n", m_KeyPress);
 			break;
 		case KEY_MOVE_RIGHT:
 			m_KeyPress |= 1<<2;
+			printf("%d\n", m_KeyPress);
 			break;
 		case KEY_MOVE_FORWORD:
 			m_KeyPress |= 1<<3;
+			printf("%d\n", m_KeyPress);
 			break;
 		default:
 			break;
@@ -139,8 +143,32 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 
 void GSPlay::Update(float deltaTime)
 {
+	std::shared_ptr<SpriteAnimation> obj;
+	obj = m_listAnimation.back();
+	Vector3 objPos = obj->GetPosition();
 	switch (m_KeyPress)//Handle Key event
 	{
+		printf("%d",m_KeyPress);
+	case 1:
+		printf("left");
+		objPos.x -= 10;
+		obj->Set2DPosition(objPos.x , objPos.y);
+		break;
+	case 2:
+		printf("down");
+		objPos.y += 10;
+		obj->Set2DPosition(objPos.x, objPos.y);
+		break;
+	case 4:
+		printf("right");
+		objPos.x += 10;
+		obj->Set2DPosition(objPos.x, objPos.y);
+		break;
+	case 8:
+		printf("up");
+		objPos.y -= 10;
+		obj->Set2DPosition(objPos.x, objPos.y);
+		break;
 	default:
 		break;
 	}
