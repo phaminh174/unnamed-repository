@@ -86,19 +86,15 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 		{
 		case KEY_MOVE_LEFT:
 			m_KeyPress |= 1;
-			printf("%d\n", m_KeyPress);
 			break;
 		case KEY_MOVE_BACKWORD:
 			m_KeyPress |= 1<<1;
-			printf("%d\n", m_KeyPress);
 			break;
 		case KEY_MOVE_RIGHT:
 			m_KeyPress |= 1<<2;
-			printf("%d\n", m_KeyPress);
 			break;
 		case KEY_MOVE_FORWORD:
 			m_KeyPress |= 1<<3;
-			printf("%d\n", m_KeyPress);
 			break;
 		default:
 			break;
@@ -146,27 +142,27 @@ void GSPlay::Update(float deltaTime)
 	std::shared_ptr<SpriteAnimation> obj;
 	obj = m_listAnimation.back();
 	Vector3 objPos = obj->GetPosition();
+	float velocity = 50;
+	/*if (m_KeyPress != 0) {
+		objPos.y += 10;
+		obj->Set2DPosition(objPos.x, objPos.y);
+	}*/
 	switch (m_KeyPress)//Handle Key event
 	{
-		printf("%d",m_KeyPress);
 	case 1:
-		printf("left");
-		objPos.x -= 10;
+		objPos.x -= velocity * deltaTime;
 		obj->Set2DPosition(objPos.x , objPos.y);
 		break;
 	case 2:
-		printf("down");
-		objPos.y += 10;
+		objPos.y += velocity * deltaTime;
 		obj->Set2DPosition(objPos.x, objPos.y);
 		break;
 	case 4:
-		printf("right");
-		objPos.x += 10;
+		objPos.x += velocity * deltaTime;
 		obj->Set2DPosition(objPos.x, objPos.y);
 		break;
 	case 8:
-		printf("up");
-		objPos.y -= 10;
+		objPos.y -= velocity * deltaTime;
 		obj->Set2DPosition(objPos.x, objPos.y);
 		break;
 	default:

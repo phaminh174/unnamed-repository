@@ -72,6 +72,9 @@
     <ClCompile Include="src\GameObject\SpriteAnimation.cpp">
       <Filter>TrainingFramework\src\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="Bird.cpp">
+      <Filter>TrainingFramework\src\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -82,9 +85,6 @@
     </ClInclude>
     <ClInclude Include="src\GameManager\Singleton.h">
       <Filter>TrainingFramework\src\GameManager</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\BaseObject.h">
-      <Filter>TrainingFramework\src\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObject\Sprite2D.h">
       <Filter>TrainingFramework\src\GameObject</Filter>
@@ -133,6 +133,12 @@
     </ClInclude>
     <ClInclude Include="src\GameObject\SpriteAnimation.h">
       <Filter>TrainingFramework\src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Bird.h">
+      <Filter>TrainingFramework\src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\BaseObject.h">
+      <Filter>TrainingFramework\src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
