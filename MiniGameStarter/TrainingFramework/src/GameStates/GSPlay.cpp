@@ -32,7 +32,13 @@ void GSPlay::Init()
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	m_background = std::make_shared<Sprite2D>(model, shader, texture);
 	m_background->Set2DPosition((float)Globals::screenWidth / 2, (float)Globals::screenHeight / 2);
-	m_background->SetSize(Globals::screenWidth, Globals::screenHeight);
+	m_background->SetSize(Globals::screenWidth+50, Globals::screenHeight+50);
+	
+	// foreground
+	texture = ResourceManagers::GetInstance()->GetTexture("foreground.tga");
+	m_foreground = std::make_shared<Sprite2D>(model, shader, texture);
+	m_foreground->Set2DPosition((float)Globals::screenWidth / 2, (float)Globals::screenHeight-50);
+	m_foreground->SetSize(169*3, 57*3);
 
 	// button close
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
@@ -46,16 +52,17 @@ void GSPlay::Init()
 
 	// score
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
-	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
-	m_score = std::make_shared< Text>(shader, font, "score: 10", TextColor::RED, 1.0);
-	m_score->Set2DPosition(Vector2(5, 25));
+	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("04B_19__.ttf");
+	m_score = std::make_shared< Text>(shader, font, "10", TextColor::WHITE, 2.0);
+	m_score->Set2DPosition((float)Globals::screenWidth / 2-10, 60);
 
+	// bird
 	shader = ResourceManagers::GetInstance()->GetShader("Animation");
 	texture = ResourceManagers::GetInstance()->GetTexture("flappy-bird.tga");
 	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 3, 1, 0, 0.1f);
 	
 	obj->Set2DPosition(240, 400);
-	obj->SetSize(100, 150);
+	obj->SetSize(90, 125);
 	m_listAnimation.push_back(obj);
 	m_KeyPress = 0;
 }
@@ -124,6 +131,7 @@ void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 
 void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 {
+	printf("mouse position: %d %d \n", x , y);
 	for (auto button : m_listButton)
 	{
 		if(button->HandleTouchEvents(x, y, bIsPressed))
@@ -137,33 +145,38 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 {
 }
 
+float gravity;
+float velocity = 0;
+
 void GSPlay::Update(float deltaTime)
 {
 	std::shared_ptr<SpriteAnimation> obj;
 	obj = m_listAnimation.back();
 	Vector3 objPos = obj->GetPosition();
-	float velocity = 50;
-	/*if (m_KeyPress != 0) {
-		objPos.y += 10;
-		obj->Set2DPosition(objPos.x, objPos.y);
-	}*/
+	// gravity
+	velocity += deltaTime * 1000 * 2;
+	objPos.y += velocity * deltaTime;
+	obj->Set2DPosition(objPos.x, objPos.y);
 	switch (m_KeyPress)//Handle Key event
 	{
-	case 1:
-		objPos.x -= velocity * deltaTime;
-		obj->Set2DPosition(objPos.x , objPos.y);
-		break;
-	case 2:
-		objPos.y += velocity * deltaTime;
-		obj->Set2DPosition(objPos.x, objPos.y);
-		break;
-	case 4:
-		objPos.x += velocity * deltaTime;
-		obj->Set2DPosition(objPos.x, objPos.y);
-		break;
+	//case 1:
+	//	// left
+	//	objPos.x -= velocity * deltaTime;
+	//	obj->Set2DPosition(objPos.x , objPos.y);
+	//	break;
+	//case 2:
+	//	// down
+	//	objPos.y += velocity * deltaTime;
+	//	obj->Set2DPosition(objPos.x, objPos.y);
+	//	break;
+	//case 4:
+	//	// right
+	//	objPos.x += velocity * deltaTime;
+	//	obj->Set2DPosition(objPos.x, objPos.y);
+	//	break;
 	case 8:
-		objPos.y -= velocity * deltaTime;
-		obj->Set2DPosition(objPos.x, objPos.y);
+		// up
+		velocity = -450;
 		break;
 	default:
 		break;
@@ -191,4 +204,5 @@ void GSPlay::Draw()
 	{
 		it->Draw();
 	}
+	m_foreground->Draw();
 }
