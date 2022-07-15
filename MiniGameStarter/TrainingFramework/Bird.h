@@ -4,6 +4,7 @@
 class Bird : public SpriteAnimation
 {
 public:
+	Bird();
 	void Init() override;
 	void Update(GLfloat deltatime) override;
 	//bool isCollider

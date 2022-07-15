@@ -18,7 +18,10 @@ SpriteAnimation::SpriteAnimation(std::shared_ptr<Model> model, std::shared_ptr<S
 	m_currentAction = currentAction;
 	Init();
 }
+SpriteAnimation::SpriteAnimation()
+{
 
+}
 SpriteAnimation::~SpriteAnimation()
 {
 }
