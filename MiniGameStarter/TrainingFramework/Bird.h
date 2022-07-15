@@ -1,23 +1,14 @@
 #pragma once
-#include "Sprite2D.h"
-#include "ResourceManagers.h"
+#include "SpriteAnimation.h"
 
-class Bird : public Sprite2D
+class Bird : public SpriteAnimation
 {
 public:
-	Bird() {
-		//texture = ResourceManagers->GetTexture();
-		y = 400;
-	}
-	void draw() {
-
-	}
-	void update(float delta) {
-		vel += delta * 20;
-		y += vel * delta;
-	}
-private:
-	ResourceManagers ResourceManagers;
+	void Init() override;
+	void Update(GLfloat deltatime) override;
+	//bool isCollider
+protected:
+	float x;
 	float y;
 	float vel;
 };

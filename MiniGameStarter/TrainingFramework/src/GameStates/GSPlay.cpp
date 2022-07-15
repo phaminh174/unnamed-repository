@@ -10,6 +10,7 @@
 #include "Text.h"
 #include "GameButton.h"
 #include "SpriteAnimation.h"
+#include "../Bird.h";
 
 
 
@@ -144,9 +145,10 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 void GSPlay::HandleMouseMoveEvents(int x, int y)
 {
 }
-
+bool gameStart = false;
 float gravity;
 float velocity = 0;
+Bird bird;
 
 void GSPlay::Update(float deltaTime)
 {
@@ -154,28 +156,17 @@ void GSPlay::Update(float deltaTime)
 	obj = m_listAnimation.back();
 	Vector3 objPos = obj->GetPosition();
 	// gravity
-	velocity += deltaTime * 1000 * 2;
-	objPos.y += velocity * deltaTime;
-	obj->Set2DPosition(objPos.x, objPos.y);
+	if (gameStart)
+	{
+		velocity += deltaTime * 1000 * 2;
+		objPos.y += velocity * deltaTime;
+		obj->Set2DPosition(objPos.x, objPos.y);
+	}
 	switch (m_KeyPress)//Handle Key event
 	{
-	//case 1:
-	//	// left
-	//	objPos.x -= velocity * deltaTime;
-	//	obj->Set2DPosition(objPos.x , objPos.y);
-	//	break;
-	//case 2:
-	//	// down
-	//	objPos.y += velocity * deltaTime;
-	//	obj->Set2DPosition(objPos.x, objPos.y);
-	//	break;
-	//case 4:
-	//	// right
-	//	objPos.x += velocity * deltaTime;
-	//	obj->Set2DPosition(objPos.x, objPos.y);
-	//	break;
 	case 8:
 		// up
+		if (!gameStart)	gameStart = true;
 		velocity = -450;
 		break;
 	default:

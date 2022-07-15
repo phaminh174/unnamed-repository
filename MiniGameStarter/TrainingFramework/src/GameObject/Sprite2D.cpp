@@ -101,10 +101,15 @@ void Sprite2D::Update(GLfloat deltatime)
 {
 }
 
-void Sprite2D::Set2DPosition(GLint x, GLint y)
+void Sprite2D::Set2DPosition(GLfloat x, GLfloat y)
 {
-	m_position = Vector3((float)x, (float)y, 0.0f);
+	m_position = Vector3(x, y, 0.0f);
 	CalculateWorldMatrix();
+}
+
+Vector2 Sprite2D::Get2DPosition()
+{
+	return Vector2(m_position.x, m_position.y);
 }
 
 void Sprite2D::SetRotation(Vector3 rotation)
