@@ -1,9 +1,7 @@
 ﻿  Bird.cpp
-C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\TrainingFramework\Bird.cpp(18,1): error C2512: 'SpriteAnimation': no appropriate default constructor available
-C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\TrainingFramework\src\GameObject\SpriteAnimation.h(3,7): message : see declaration of 'SpriteAnimation'
   GSPlay.cpp
 C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\TrainingFramework\src\GameStates\GSPlay.cpp(13,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\TrainingFramework\src\GameStates\GSPlay.cpp(47,45): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\TrainingFramework\src\GameStates\GSPlay.cpp(48,45): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xutility(158,77): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
           with
           [
@@ -24,5 +22,6 @@ C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.2
           [
               _Ty=Text
           ]
-C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\TrainingFramework\src\GameStates\GSPlay.cpp(57): message : see reference to function template instantiation 'std::shared_ptr<Text> std::make_shared<Text,std::shared_ptr<Shader>&,std::shared_ptr<Font>&,const char(&)[3],TextColor,double>(std::shared_ptr<Shader> &,std::shared_ptr<Font> &,const char (&)[3],TextColor &&,double &&)' being compiled
+C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\TrainingFramework\src\GameStates\GSPlay.cpp(58): message : see reference to function template instantiation 'std::shared_ptr<Text> std::make_shared<Text,std::shared_ptr<Shader>&,std::shared_ptr<Font>&,const char(&)[3],TextColor,double>(std::shared_ptr<Shader> &,std::shared_ptr<Font> &,const char (&)[3],TextColor &&,double &&)' being compiled
   Generating Code...
+  TrainingFramework.vcxproj -> C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\BIN-Nvidia\TrainingFramework.exe

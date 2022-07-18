@@ -23,6 +23,7 @@ GSPlay::~GSPlay()
 {
 }
 
+Bird* bird;
 
 void GSPlay::Init()
 {
@@ -38,7 +39,7 @@ void GSPlay::Init()
 	// foreground
 	texture = ResourceManagers::GetInstance()->GetTexture("foreground.tga");
 	m_foreground = std::make_shared<Sprite2D>(model, shader, texture);
-	m_foreground->Set2DPosition((float)Globals::screenWidth / 2, (float)Globals::screenHeight-50);
+	m_foreground->Set2DPosition((float)Globals::screenWidth / 2, (float)Globals::screenHeight+20);
 	m_foreground->SetSize(169*3, 57*3);
 
 	// button close
@@ -57,14 +58,8 @@ void GSPlay::Init()
 	m_score = std::make_shared< Text>(shader, font, "10", TextColor::WHITE, 2.0);
 	m_score->Set2DPosition((float)Globals::screenWidth / 2-10, 60);
 
-	// bird
-	shader = ResourceManagers::GetInstance()->GetShader("Animation");
-	texture = ResourceManagers::GetInstance()->GetTexture("flappy-bird.tga");
-	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 3, 1, 0, 0.1f);
-	
-	obj->Set2DPosition(240, 400);
-	obj->SetSize(90, 125);
-	m_listAnimation.push_back(obj);
+	//bird
+	bird = new Bird();
 	m_KeyPress = 0;
 }
 
@@ -145,29 +140,20 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 void GSPlay::HandleMouseMoveEvents(int x, int y)
 {
 }
-bool gameStart = false;
-float gravity;
-float velocity = 0;
-Bird bird;
 
 void GSPlay::Update(float deltaTime)
 {
-	std::shared_ptr<SpriteAnimation> obj;
-	obj = m_listAnimation.back();
-	Vector3 objPos = obj->GetPosition();
+
 	// gravity
-	if (gameStart)
-	{
-		velocity += deltaTime * 1000 * 2;
-		objPos.y += velocity * deltaTime;
-		obj->Set2DPosition(objPos.x, objPos.y);
-	}
+	bird->Update(deltaTime);
 	switch (m_KeyPress)//Handle Key event
 	{
 	case 8:
 		// up
-		if (!gameStart)	gameStart = true;
-		velocity = -450;
+		if (!bird->getStartFall()) {
+			bird->setStartFall(true);
+		}
+		bird->flap(-450);
 		break;
 	default:
 		break;
@@ -176,10 +162,11 @@ void GSPlay::Update(float deltaTime)
 	{
 		it->Update(deltaTime);
 	}
-	for (auto it : m_listAnimation)
+	/*for (auto it : m_listAnimation)
 	{
 		it->Update(deltaTime);
-	}
+	}*/
+
 }
 
 void GSPlay::Draw()
@@ -190,10 +177,12 @@ void GSPlay::Draw()
 	{
 		it->Draw();
 	}
+	bird->Draw();
 
-	for (auto it : m_listAnimation)
+	//bird->Draw();
+	/*for (auto it : m_listAnimation)
 	{
 		it->Draw();
-	}
+	}*/
 	m_foreground->Draw();
 }
