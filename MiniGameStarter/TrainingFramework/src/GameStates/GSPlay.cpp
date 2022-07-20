@@ -11,6 +11,8 @@
 #include "GameButton.h"
 #include "SpriteAnimation.h"
 #include "../Bird.h";
+#include "../Pipe.h";
+#include "../Foreground.h";
 
 
 
@@ -24,6 +26,9 @@ GSPlay::~GSPlay()
 }
 
 Bird* bird;
+Pipe* pipe1;
+Pipe* pipe2;
+Foreground* foreground;
 
 void GSPlay::Init()
 {
@@ -36,11 +41,11 @@ void GSPlay::Init()
 	m_background->Set2DPosition((float)Globals::screenWidth / 2, (float)Globals::screenHeight / 2);
 	m_background->SetSize(Globals::screenWidth+50, Globals::screenHeight+50);
 	
-	// foreground
-	texture = ResourceManagers::GetInstance()->GetTexture("foreground.tga");
-	m_foreground = std::make_shared<Sprite2D>(model, shader, texture);
-	m_foreground->Set2DPosition((float)Globals::screenWidth / 2, (float)Globals::screenHeight+20);
-	m_foreground->SetSize(169*3, 57*3);
+	//// foreground
+	//texture = ResourceManagers::GetInstance()->GetTexture("foreground.tga");
+	//m_foreground = std::make_shared<Sprite2D>(model, shader, texture);
+	//m_foreground->Set2DPosition((float)Globals::screenWidth / 2, (float)Globals::screenHeight+20);
+	//m_foreground->SetSize(169*5, 57*3);
 
 	// button close
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
@@ -58,8 +63,14 @@ void GSPlay::Init()
 	m_score = std::make_shared< Text>(shader, font, "10", TextColor::WHITE, 2.0);
 	m_score->Set2DPosition((float)Globals::screenWidth / 2-10, 60);
 
+	//foreground
+	foreground = new Foreground();
+
 	//bird
 	bird = new Bird();
+
+	//pipe
+	pipe1 = new Pipe();
 	m_KeyPress = 0;
 }
 
@@ -140,18 +151,34 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 void GSPlay::HandleMouseMoveEvents(int x, int y)
 {
 }
+float timer = 0;
 
 void GSPlay::Update(float deltaTime)
 {
-
+	if (bird->getStartFall())
+	{
+		timer += deltaTime;
+		if (timer > 1.2 && pipe2 == NULL) {
+			pipe2 = new Pipe();
+			pipe2->setStartFall(true);
+			timer = 0;
+		}
+	}
+	foreground->Update(deltaTime);
+	pipe1->Update(deltaTime);
+	if (pipe2 != NULL)
+	pipe2->Update(deltaTime);
 	// gravity
 	bird->Update(deltaTime);
+		Vector2 birdsize = bird->GetSize();
 	switch (m_KeyPress)//Handle Key event
 	{
 	case 8:
 		// up
+		printf("%f %f \n", birdsize.x, birdsize.y);
 		if (!bird->getStartFall()) {
 			bird->setStartFall(true);
+			pipe1->setStartFall(true);
 		}
 		bird->flap(-450);
 		break;
@@ -172,17 +199,15 @@ void GSPlay::Update(float deltaTime)
 void GSPlay::Draw()
 {
 	m_background->Draw();
-	m_score->Draw();
+	bird->Draw();
+	pipe1->Draw();
+	if (pipe2 != NULL)
+	pipe2->Draw();
+	foreground->Draw();
+	//m_foreground->Draw();
 	for (auto it : m_listButton)
 	{
 		it->Draw();
 	}
-	bird->Draw();
-
-	//bird->Draw();
-	/*for (auto it : m_listAnimation)
-	{
-		it->Draw();
-	}*/
-	m_foreground->Draw();
+	m_score->Draw();
 }

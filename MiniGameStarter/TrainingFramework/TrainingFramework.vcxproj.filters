@@ -75,6 +75,12 @@
     <ClCompile Include="Bird.cpp">
       <Filter>TrainingFramework\src\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>TrainingFramework\src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Foreground.cpp">
+      <Filter>TrainingFramework\src\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -139,6 +145,12 @@
     </ClInclude>
     <ClInclude Include="src\GameObject\BaseObject.h">
       <Filter>TrainingFramework\src</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>TrainingFramework\src\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Foreground.h">
+      <Filter>TrainingFramework\src\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

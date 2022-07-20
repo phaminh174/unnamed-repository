@@ -28,6 +28,7 @@ Bird::Bird()
 	obj = std::make_shared<SpriteAnimation>(model, shader, texture, 3, 1, 0, 0.1f);
 	obj->Set2DPosition(240, 400);
 	obj->SetSize(90, 125);
+	this->SetSize(90, 125);
 	m_listAnimation.push_back(obj);
 	startFall = false;
 }
