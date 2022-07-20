@@ -160,25 +160,19 @@ void GSPlay::Update(float deltaTime)
 		timer += deltaTime;
 		if (timer > 1.2 && pipe2 == NULL) {
 			pipe2 = new Pipe();
-			pipe2->setStartFall(true);
 			timer = 0;
 		}
 	}
 	foreground->Update(deltaTime);
-	pipe1->Update(deltaTime);
-	if (pipe2 != NULL)
-	pipe2->Update(deltaTime);
-	// gravity
+	if (bird->getStartFall()) pipe1->Update(deltaTime);
+	if (pipe2 != NULL && bird->getStartFall()) pipe2->Update(deltaTime);
 	bird->Update(deltaTime);
-		Vector2 birdsize = bird->GetSize();
 	switch (m_KeyPress)//Handle Key event
 	{
 	case 8:
 		// up
-		printf("%f %f \n", birdsize.x, birdsize.y);
 		if (!bird->getStartFall()) {
 			bird->setStartFall(true);
-			pipe1->setStartFall(true);
 		}
 		bird->flap(-450);
 		break;
@@ -201,8 +195,7 @@ void GSPlay::Draw()
 	m_background->Draw();
 	bird->Draw();
 	pipe1->Draw();
-	if (pipe2 != NULL)
-	pipe2->Draw();
+	if (pipe2 != NULL && bird->getStartFall()) pipe2->Draw();
 	foreground->Draw();
 	//m_foreground->Draw();
 	for (auto it : m_listButton)

@@ -10,9 +10,7 @@
 void Pipe::Update(GLfloat deltatime) {
 	lowerPipe->Update(deltatime);
 	upperPipe->Update(deltatime);
-	if (startFall) {
-		this->Moving(deltatime);
-	}
+	this->Moving(deltatime);
 }
 
 
