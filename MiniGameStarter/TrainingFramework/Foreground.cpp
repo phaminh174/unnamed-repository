@@ -50,3 +50,11 @@ void Foreground::Moving(GLfloat deltatime) {
 	}
 	foreground2->Set2DPosition(pos.x, pos.y);
 }
+
+Vector2 Foreground::getFirstForeground() {
+	return foreground1->Get2DPosition();
+}
+
+Vector2 Foreground::getSecondForeground() {
+	return foreground2->Get2DPosition();
+}

@@ -33,6 +33,7 @@ Pipe::Pipe()
 	lowerPipe->SetSize(100, 614);
 	upperPipe->Set2DPosition((float)Globals::screenWidth + 50, 0);
 	upperPipe->SetSize(100, 614);
+	this->SetSize(80, 600);
 }
 
 void Pipe::Draw()
@@ -68,3 +69,10 @@ void Pipe::setStartFall(bool i) {
 	this->startFall = i;
 }
 
+Vector2 Pipe::getUpperPipePos() {
+	return upperPipe->Get2DPosition();
+}
+
+Vector2 Pipe::getLowerPipePos() {
+	return lowerPipe->Get2DPosition();
+}

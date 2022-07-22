@@ -71,6 +71,7 @@ void GSPlay::Init()
 
 	//pipe
 	pipe1 = new Pipe();
+	pipe2 = new Pipe();
 	m_KeyPress = 0;
 }
 
@@ -155,32 +156,49 @@ float timer = 0;
 
 void GSPlay::Update(float deltaTime)
 {
+	/*if (bird->isCollided(pipe1->getUpperPipePos(), pipe1->GetSize())) 
+		printf("va cham ong tren\n");
+
+	if (bird->isCollided(pipe2->getLowerPipePos(), pipe2->GetSize()) || bird->isCollided(pipe2->getUpperPipePos(), pipe2->GetSize())) {
+		printf("va cham ong 2\n");
+	}
+
+	if (bird->isCollided(pipe1->getLowerPipePos(), pipe1->GetSize())) 
+		{
+			printf("va cham ong duoi\n");
+		}*/
+	if (bird->isCollided(foreground->getFirstForeground(), foreground->GetSize()) || bird->isCollided(foreground->getSecondForeground(), foreground->GetSize()))
+		printf("va cham");
+
 	if (bird->getStartFall())
 	{
 		timer += deltaTime;
-		if (timer > 1.2 && pipe2 == NULL) {
-			pipe2 = new Pipe();
-			pipe2->setStartFall(true);
+		if (timer > 1.2) {
+			//pipe2->setStartFall(true);
 			timer = 0;
 		}
 	}
 	foreground->Update(deltaTime);
 	pipe1->Update(deltaTime);
-	if (pipe2 != NULL)
 	pipe2->Update(deltaTime);
-	// gravity
 	bird->Update(deltaTime);
-		Vector2 birdsize = bird->GetSize();
 	switch (m_KeyPress)//Handle Key event
 	{
+	case 1:
+		bird->Left(deltaTime);
+		break;
+	case 2:
+		bird->Down(deltaTime);
+		break;
+	case 3:
+		bird->Right(deltaTime);
+		break;
 	case 8:
 		// up
-		printf("%f %f \n", birdsize.x, birdsize.y);
-		if (!bird->getStartFall()) {
-			bird->setStartFall(true);
-			pipe1->setStartFall(true);
-		}
-		bird->flap(-450);
+		bird->setStartFall(true);
+		pipe1->setStartFall(true);
+		bird->Up(deltaTime);
+		//bird->flap(-600);
 		break;
 	default:
 		break;
@@ -201,7 +219,6 @@ void GSPlay::Draw()
 	m_background->Draw();
 	bird->Draw();
 	pipe1->Draw();
-	if (pipe2 != NULL)
 	pipe2->Draw();
 	foreground->Draw();
 	//m_foreground->Draw();

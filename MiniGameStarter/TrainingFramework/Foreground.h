@@ -8,6 +8,8 @@ public:
 	void Update(GLfloat deltatime) override;
 	void Draw();
 	void Moving(GLfloat deltatime);
+	Vector2 getFirstForeground();
+	Vector2 getSecondForeground();
 protected:
 	std::shared_ptr<Model> model;
 	std::shared_ptr<Shader> shader;

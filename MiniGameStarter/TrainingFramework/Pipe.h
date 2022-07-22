@@ -12,6 +12,8 @@ public:
 	void Moving(GLfloat deltatime);
 	bool getStartFall();
 	void setStartFall(bool i);
+	Vector2 getUpperPipePos();
+	Vector2 getLowerPipePos();
 protected:
 	std::shared_ptr<Model> model;
 	std::shared_ptr<Shader> shader;
@@ -22,6 +24,6 @@ protected:
 	float y;
 	float velocity = 350;
 	int pos;
-	bool startFall;
+	bool startFall = false;
 };
 
