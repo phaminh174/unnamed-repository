@@ -173,14 +173,24 @@ void GSPlay::Update(float deltaTime)
 	if (bird->getStartFall())
 	{
 		timer += deltaTime;
+<<<<<<< HEAD
 		if (timer > 1.2) {
 			//pipe2->setStartFall(true);
+=======
+		if (timer > 1.2 && pipe2 == NULL) {
+			pipe2 = new Pipe();
+>>>>>>> 427ada07f691bab35a4e5d76b63115291606dbc1
 			timer = 0;
 		}
 	}
 	foreground->Update(deltaTime);
+<<<<<<< HEAD
 	pipe1->Update(deltaTime);
 	pipe2->Update(deltaTime);
+=======
+	if (bird->getStartFall()) pipe1->Update(deltaTime);
+	if (pipe2 != NULL && bird->getStartFall()) pipe2->Update(deltaTime);
+>>>>>>> 427ada07f691bab35a4e5d76b63115291606dbc1
 	bird->Update(deltaTime);
 	switch (m_KeyPress)//Handle Key event
 	{
@@ -195,10 +205,17 @@ void GSPlay::Update(float deltaTime)
 		break;
 	case 8:
 		// up
+<<<<<<< HEAD
 		bird->setStartFall(true);
 		pipe1->setStartFall(true);
 		bird->Up(deltaTime);
 		//bird->flap(-600);
+=======
+		if (!bird->getStartFall()) {
+			bird->setStartFall(true);
+		}
+		bird->flap(-450);
+>>>>>>> 427ada07f691bab35a4e5d76b63115291606dbc1
 		break;
 	default:
 		break;
@@ -219,7 +236,11 @@ void GSPlay::Draw()
 	m_background->Draw();
 	bird->Draw();
 	pipe1->Draw();
+<<<<<<< HEAD
 	pipe2->Draw();
+=======
+	if (pipe2 != NULL && bird->getStartFall()) pipe2->Draw();
+>>>>>>> 427ada07f691bab35a4e5d76b63115291606dbc1
 	foreground->Draw();
 	//m_foreground->Draw();
 	for (auto it : m_listButton)
