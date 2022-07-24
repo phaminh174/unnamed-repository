@@ -27,11 +27,11 @@ Bird::Bird()
 	texture = ResourceManagers::GetInstance()->GetTexture("flappy-bird.tga");
 	obj = std::make_shared<SpriteAnimation>(model, shader, texture, 3, 1, 0, 0.1f);
 	obj->Set2DPosition(240, 400);
-	this->Set2DPosition(240, 400);
 	obj->SetSize(80, 57.6);
-	this->SetSize(50, 50);
+	this->SetSize(80, 55);
 	m_listAnimation.push_back(obj);
 	startFall = false;
+	gameOver = false;
 }
 
 Bird::~Bird() {
@@ -39,9 +39,15 @@ Bird::~Bird() {
 }
 void Bird::Draw()
 {
-	for (auto it : m_listAnimation)
+	if (!gameOver)
 	{
-		it->Draw();
+		for (auto it : m_listAnimation)
+		{
+			it->Draw();
+		}
+	}
+	else {
+		m_listAnimation.back()->Draw();
 	}
 }
 
@@ -70,58 +76,63 @@ void Bird::setStartFall(bool i) {
 }
 
 void Bird::flap(float v) {
-	this->velocity = v;
-	Vector3 objRot = obj->GetRotation();
-	if (objRot.z > 0) {
-		this->velocityRot = -3*PI / 4 - (objRot.z);
+	if (!gameOver)
+	{
+		ResourceManagers::GetInstance()->PlaySound("sfx_wing.wav");
+		this->velocity = v;
+		Vector3 objRot = obj->GetRotation();
+		if (objRot.z > 0) {
+			this->velocityRot = -3 * PI / 4 - (objRot.z);
+		}
+		else this->velocityRot = -PI / 2;
 	}
-	else this->velocityRot = -PI / 2;
 }
 
 bool Bird::isCollided(Vector2 objPos , Vector2 objSize) {
-	Vector2 pos = this->Get2DPosition();
-	Vector2 size = this->GetSize();
-
-	//Vector2 birdPos = Vector2(pos.x-size.x , pos.y - size.y);
-	Vector2 birdPos = this->Get2DPosition();
 	Vector2 birdSize = this->GetSize();
+	Vector2 birdPos = Vector2(obj->GetPosition().x - birdSize.x/2, obj->GetPosition().y - birdSize.y/2);
 	
-	float distX = (birdPos.x + (birdSize.x / 2)) - (objPos.x + (objSize.x) / 2);
+	double distX = (birdPos.x + (birdSize.x / 2)) - (objPos.x + (objSize.x) / 2);
 	if (distX < 0)
 		distX = -distX;
 
-	float distW = (birdSize.x + objSize.x) / 2;
+	double distW = (birdSize.x + objSize.x) / 2;
 
-	float distY = (birdPos.y + (birdSize.y / 2)) - (objPos.y + (objSize.y) / 2);
+	int distY = (birdPos.y + (birdSize.y / 2)) - (objPos.y + (objSize.y) / 2);
 	if (distY < 0)
 		distY = -distY;
 
-	float distH = (birdSize.y + objSize.y) / 2;
+	int distH = (birdSize.y + objSize.y) / 2;
 
 	return (distX <= distW && distY <= distH);
 	return false;
 }
 
-void Bird::Up(GLfloat deltatime) {
-	Vector2 pos = obj->Get2DPosition();
-	pos.y -= 100 * deltatime;
+void Bird::Up(GLfloat deltatime, float v) {
+	Vector3 pos = obj->GetPosition();
+	pos.y -= v * deltatime;
 	obj->Set2DPosition(pos.x,pos.y);
 }
 
-void Bird::Down(GLfloat deltatime) {
-	Vector2 pos = obj->Get2DPosition();
-	pos.y += 100 * deltatime;
+void Bird::Down(GLfloat deltatime, float v) {
+	Vector3 pos = obj->GetPosition();
+	pos.y += v * deltatime;
 	obj->Set2DPosition(pos.x, pos.y);
 }
 
-void Bird::Left(GLfloat deltatime) {
-	Vector2 pos = obj->Get2DPosition();
-	pos.x += 100 * deltatime;
+void Bird::Left(GLfloat deltatime, float v) {
+	Vector3 pos = obj->GetPosition();
+	pos.x += v * deltatime;
 	obj->Set2DPosition(pos.x, pos.y);
 }
 
-void Bird::Right(GLfloat deltatime) {
-	Vector2 pos = obj->Get2DPosition();
-	pos.x -= 100 * deltatime;
+void Bird::Right(GLfloat deltatime, float v) {
+	Vector3 pos = obj->GetPosition();
+	pos.x -= v * deltatime;
 	obj->Set2DPosition(pos.x, pos.y);
+}
+
+void Bird::setGameOver(bool i) {
+	gameOver = i;
+	this->setStartFall(false);
 }

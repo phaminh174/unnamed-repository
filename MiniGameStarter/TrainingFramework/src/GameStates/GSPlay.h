@@ -34,6 +34,8 @@ private:
 	std::shared_ptr<Sprite2D>	m_bird;
 	std::shared_ptr<Sprite2D>	m_pipe;
 	std::shared_ptr<Text>		m_score;
+	std::shared_ptr<Text>		m_panel1;
+	std::shared_ptr<Text>		m_panel2;
 	std::list<std::shared_ptr<GameButton>>	m_listButton;
 	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
 

@@ -10,7 +10,7 @@
 void Pipe::Update(GLfloat deltatime) {
 	lowerPipe->Update(deltatime);
 	upperPipe->Update(deltatime);
-	this->Moving(deltatime);
+	if (startFall) this->Moving(deltatime);
 }
 
 
@@ -19,8 +19,10 @@ void Pipe::Init() {
 
 Pipe::Pipe()
 {
-	pos = rand() % (Globals::screenHeight / 2 - 200 - (-Globals::screenWidth / 2 + 100) + 1) + (-Globals::screenWidth / 2 + 100);
 	startFall = false;
+	scored = false;
+	gameOver = false;	
+	pos = rand() % (Globals::screenHeight / 2 - 200 - (-Globals::screenWidth / 2 + 100) + 1) + (-Globals::screenWidth / 2 + 100);
 	model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("LowerPipe.tga");
@@ -31,7 +33,8 @@ Pipe::Pipe()
 	lowerPipe->SetSize(100, 614);
 	upperPipe->Set2DPosition((float)Globals::screenWidth + 50, 0);
 	upperPipe->SetSize(100, 614);
-	this->SetSize(80, 600);
+	this->SetSize(95, 610);
+	this->Set2DPosition(upperPipe->GetPosition().x, (upperPipe->GetPosition().y + lowerPipe->GetPosition().y) / 2);
 }
 
 void Pipe::Draw()
@@ -41,12 +44,11 @@ void Pipe::Draw()
 }
 
 void Pipe::Moving(GLfloat deltatime) {
-	//float randomX = rand
-
 	Vector3 upperPipePos = upperPipe->GetPosition();
 	if (upperPipePos.x < -40) {
 		upperPipePos.x = (float)Globals::screenWidth + 50;
 		pos = rand() % (Globals::screenHeight/2-200 - (-Globals::screenWidth/2+100) + 1) + (-Globals::screenWidth/2+100);
+		scored = false;	
 	}
 	upperPipePos.x -= velocity * deltatime;
 	upperPipe->Set2DPosition(upperPipePos.x, pos);
@@ -54,6 +56,7 @@ void Pipe::Moving(GLfloat deltatime) {
 	Vector3 lowerPipePos = lowerPipe->GetPosition();
 	if (lowerPipePos.x < -40) {
 		lowerPipePos.x = (float)Globals::screenWidth + 50;
+		scored = false;	
 	}
 	lowerPipePos.x -= velocity * deltatime;
 	lowerPipe->Set2DPosition(lowerPipePos.x, pos + (float)Globals::screenHeight);
@@ -68,9 +71,23 @@ void Pipe::setStartFall(bool i) {
 }
 
 Vector2 Pipe::getUpperPipePos() {
-	return upperPipe->Get2DPosition();
+	return Vector2(upperPipe->GetPosition().x - this->m_iWidth/2, upperPipe->GetPosition().y - this->m_iHeight/2);
 }
 
 Vector2 Pipe::getLowerPipePos() {
-	return lowerPipe->Get2DPosition();
+	return Vector2(lowerPipe->GetPosition().x - this->m_iWidth/2, lowerPipe ->GetPosition().y - this->m_iHeight/2);
+}
+
+bool Pipe::Scored(Vector2 pos , Vector2 size) {
+	if (pos.x + 160 >= (lowerPipe->Get2DPosition().x)  && !scored) {
+		scored = true;
+		ResourceManagers::GetInstance()->PlaySound("sfx_point.wav");
+		return true;
+	} 
+	return false;
+}
+
+void Pipe::setGameOver(bool i) {
+	gameOver = i;
+	this->setStartFall(false);
 }

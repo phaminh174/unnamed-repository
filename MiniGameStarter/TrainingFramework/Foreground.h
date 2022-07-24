@@ -10,6 +10,7 @@ public:
 	void Moving(GLfloat deltatime);
 	Vector2 getFirstForeground();
 	Vector2 getSecondForeground();
+	void setGameOver(bool i);
 protected:
 	std::shared_ptr<Model> model;
 	std::shared_ptr<Shader> shader;
@@ -19,5 +20,6 @@ protected:
 	float x;
 	float y;
 	float velocity = 500;
+	bool gameOver;
 };
 

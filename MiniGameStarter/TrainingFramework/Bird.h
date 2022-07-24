@@ -15,10 +15,11 @@ public:
 	void setStartFall(bool i);
 	void flap(float v);
 	bool isCollided(Vector2 pos, Vector2 size);
-	void Up(GLfloat deltatime);
-	void Down(GLfloat deltatime);
-	void Left(GLfloat deltatime);
-	void Right(GLfloat deltatime);
+	void Up(GLfloat deltatime, float v);
+	void Down(GLfloat deltatime, float v);
+	void Left(GLfloat deltatime, float v);
+	void Right(GLfloat deltatime, float v);
+	void setGameOver(bool i);
 protected:
 	std::shared_ptr<Model> model;
 	std::shared_ptr<Shader> shader;
@@ -30,5 +31,6 @@ protected:
 	float velocity = 0;
 	float velocityRot = 0;
 	bool startFall;
+	bool gameOver;
 };
 

@@ -7,7 +7,7 @@
 void Foreground::Update(GLfloat deltatime) {
 	foreground1->Update(deltatime);
 	foreground2->Update(deltatime);
-	Moving(deltatime);
+	if (!gameOver) Moving(deltatime);
 }
 
 
@@ -16,6 +16,7 @@ void Foreground::Init() {
 
 Foreground::Foreground()
 {
+	gameOver = false;	
 	model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("foreground.tga");
@@ -52,9 +53,13 @@ void Foreground::Moving(GLfloat deltatime) {
 }
 
 Vector2 Foreground::getFirstForeground() {
-	return foreground1->Get2DPosition();
+	return  Vector2(foreground1->Get2DPosition().x - this->m_iWidth/2, foreground1->Get2DPosition().y - this->m_iHeight/2);
 }
 
 Vector2 Foreground::getSecondForeground() {
-	return foreground2->Get2DPosition();
+	return  Vector2(foreground2->Get2DPosition().x - this->m_iWidth/2, foreground2->Get2DPosition().y - this->m_iHeight/2);
+}
+
+void Foreground::setGameOver(bool i) {
+	gameOver = i;
 }

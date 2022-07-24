@@ -14,7 +14,12 @@
 #include "../Pipe.h";
 #include "../Foreground.h";
 
+using namespace std;
 
+template <typename T> std::string tostr(const T& t)
+{
+	std::ostringstream os; os << t; return os.str();
+}
 
 GSPlay::GSPlay()
 {
@@ -29,6 +34,11 @@ Bird* bird;
 Pipe* pipe1;
 Pipe* pipe2;
 Foreground* foreground;
+float timer = 0;
+bool gameOver;
+int score;
+bool playsound;
+
 
 void GSPlay::Init()
 {
@@ -41,12 +51,6 @@ void GSPlay::Init()
 	m_background->Set2DPosition((float)Globals::screenWidth / 2, (float)Globals::screenHeight / 2);
 	m_background->SetSize(Globals::screenWidth+50, Globals::screenHeight+50);
 	
-	//// foreground
-	//texture = ResourceManagers::GetInstance()->GetTexture("foreground.tga");
-	//m_foreground = std::make_shared<Sprite2D>(model, shader, texture);
-	//m_foreground->Set2DPosition((float)Globals::screenWidth / 2, (float)Globals::screenHeight+20);
-	//m_foreground->SetSize(169*5, 57*3);
-
 	// button close
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	std::shared_ptr<GameButton>  button = std::make_shared<GameButton>(model, shader, texture);
@@ -60,8 +64,12 @@ void GSPlay::Init()
 	// score
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("04B_19__.ttf");
-	m_score = std::make_shared< Text>(shader, font, "10", TextColor::WHITE, 2.0);
-	m_score->Set2DPosition((float)Globals::screenWidth / 2-10, 60);
+	m_panel1 = std::make_shared< Text>(shader, font, "YOU LOSE", TextColor::WHITE, 2.0);
+	m_panel2 = std::make_shared< Text>(shader, font, "PLAY AGAIN?", TextColor::WHITE, 2.0);
+	m_score = std::make_shared< Text>(shader, font, "Score: 0", TextColor::WHITE, 2.0);
+	m_score->Set2DPosition((float)Globals::screenWidth / 2 - 100, 60);
+	m_panel1->Set2DPosition((float)Globals::screenWidth / 2 - 100, (float)Globals::screenHeight / 2 - 100);
+	m_panel2->Set2DPosition((float)Globals::screenWidth / 2 - 125, (float)Globals::screenHeight / 2 );
 
 	//foreground
 	foreground = new Foreground();
@@ -72,7 +80,12 @@ void GSPlay::Init()
 	//pipe
 	pipe1 = new Pipe();
 	pipe2 = new Pipe();
+
+	timer = 0;
 	m_KeyPress = 0;
+	score = 0;
+	gameOver = false;
+	playsound = false;
 }
 
 void GSPlay::Exit()
@@ -152,70 +165,77 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 void GSPlay::HandleMouseMoveEvents(int x, int y)
 {
 }
-float timer = 0;
+
 
 void GSPlay::Update(float deltaTime)
 {
-	/*if (bird->isCollided(pipe1->getUpperPipePos(), pipe1->GetSize())) 
-		printf("va cham ong tren\n");
-
-	if (bird->isCollided(pipe2->getLowerPipePos(), pipe2->GetSize()) || bird->isCollided(pipe2->getUpperPipePos(), pipe2->GetSize())) {
-		printf("va cham ong 2\n");
+	if (gameOver) {
+		bird->setGameOver(true);
+		pipe1->setGameOver(true);
+		pipe2->setGameOver(true);
+		foreground->setGameOver(true);
+		if (!playsound) {
+			ResourceManagers::GetInstance()->PlaySound("sfx_hit.wav");
+			playsound = true;
+		}
+	}
+	// check va cham
+	if (bird->Get2DPosition().y < 0) gameOver = true;
+	if (bird->isCollided(pipe1->getLowerPipePos(), pipe1->GetSize())) {
+		gameOver = true;
+	}
+	if (bird->isCollided(pipe1->getUpperPipePos(), pipe1->GetSize())) {
+		gameOver = true;
 	}
 
-	if (bird->isCollided(pipe1->getLowerPipePos(), pipe1->GetSize())) 
-		{
-			printf("va cham ong duoi\n");
-		}*/
-	if (bird->isCollided(foreground->getFirstForeground(), foreground->GetSize()) || bird->isCollided(foreground->getSecondForeground(), foreground->GetSize()))
-		printf("va cham");
+	if (bird->isCollided(pipe2->getLowerPipePos(), pipe2->GetSize())) {
+		gameOver = true;
+	}
+	if (bird->isCollided(pipe2->getUpperPipePos(), pipe2->GetSize())) {
+		gameOver = true;
+	}
 
+	if (bird->isCollided(foreground->getFirstForeground(), foreground->GetSize()) || bird->isCollided(foreground->getSecondForeground(), foreground->GetSize()))
+	{
+		gameOver = true;
+	}
+
+	// diem
+	if (!gameOver)
+	{
+		if (pipe1->Scored(bird->Get2DPosition(), bird->GetSize()) || pipe2->Scored(bird->Get2DPosition(), bird->GetSize())) {
+			score++;
+			m_score->SetText("Score: " + tostr(score));
+		}
+	}
 	if (bird->getStartFall())
 	{
 		timer += deltaTime;
-<<<<<<< HEAD
 		if (timer > 1.2) {
-			//pipe2->setStartFall(true);
-=======
-		if (timer > 1.2 && pipe2 == NULL) {
-			pipe2 = new Pipe();
->>>>>>> 427ada07f691bab35a4e5d76b63115291606dbc1
+			pipe2->setStartFall(true);
 			timer = 0;
 		}
 	}
 	foreground->Update(deltaTime);
-<<<<<<< HEAD
 	pipe1->Update(deltaTime);
 	pipe2->Update(deltaTime);
-=======
-	if (bird->getStartFall()) pipe1->Update(deltaTime);
-	if (pipe2 != NULL && bird->getStartFall()) pipe2->Update(deltaTime);
->>>>>>> 427ada07f691bab35a4e5d76b63115291606dbc1
 	bird->Update(deltaTime);
 	switch (m_KeyPress)//Handle Key event
 	{
 	case 1:
-		bird->Left(deltaTime);
+		//bird->Right(deltaTime , 500);
 		break;
 	case 2:
-		bird->Down(deltaTime);
+		//bird->Down(deltaTime, 500);
 		break;
-	case 3:
-		bird->Right(deltaTime);
+	case 4:
+		//bird->Left(deltaTime, 500);
 		break;
 	case 8:
 		// up
-<<<<<<< HEAD
 		bird->setStartFall(true);
 		pipe1->setStartFall(true);
-		bird->Up(deltaTime);
-		//bird->flap(-600);
-=======
-		if (!bird->getStartFall()) {
-			bird->setStartFall(true);
-		}
-		bird->flap(-450);
->>>>>>> 427ada07f691bab35a4e5d76b63115291606dbc1
+		bird->flap(-600);
 		break;
 	default:
 		break;
@@ -224,11 +244,6 @@ void GSPlay::Update(float deltaTime)
 	{
 		it->Update(deltaTime);
 	}
-	/*for (auto it : m_listAnimation)
-	{
-		it->Update(deltaTime);
-	}*/
-
 }
 
 void GSPlay::Draw()
@@ -236,16 +251,16 @@ void GSPlay::Draw()
 	m_background->Draw();
 	bird->Draw();
 	pipe1->Draw();
-<<<<<<< HEAD
 	pipe2->Draw();
-=======
-	if (pipe2 != NULL && bird->getStartFall()) pipe2->Draw();
->>>>>>> 427ada07f691bab35a4e5d76b63115291606dbc1
 	foreground->Draw();
-	//m_foreground->Draw();
 	for (auto it : m_listButton)
 	{
 		it->Draw();
 	}
 	m_score->Draw();
+	if (gameOver) {
+		m_panel1->Draw();
+		m_panel2->Draw();
+	}
 }
+
