@@ -26,7 +26,7 @@ Bird::Bird()
 	shader = ResourceManagers::GetInstance()->GetShader("Animation");
 	texture = ResourceManagers::GetInstance()->GetTexture("flappy-bird.tga");
 	obj = std::make_shared<SpriteAnimation>(model, shader, texture, 3, 1, 0, 0.1f);
-	obj->Set2DPosition(240, 400);
+	obj->Set2DPosition(360, 400);
 	obj->SetSize(80, 57.6);
 	this->SetSize(80, 55);
 	m_listAnimation.push_back(obj);
@@ -135,4 +135,12 @@ void Bird::Right(GLfloat deltatime, float v) {
 void Bird::setGameOver(bool i) {
 	gameOver = i;
 	this->setStartFall(false);
+}
+
+Vector3 Bird::GetPosition() {
+	return obj->GetPosition();
+}
+
+void Bird::SetPosition(GLfloat x, GLfloat y) {
+	return obj->Set2DPosition(x,y);
 }

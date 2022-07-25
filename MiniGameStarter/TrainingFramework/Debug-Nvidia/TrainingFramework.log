@@ -1,3 +1,30 @@
 ﻿  Pipe.cpp
-C:\Users\minhc\OneDrive\Máy tính\Gameloft\unnamed-repository\MiniGameStarter\TrainingFramework\Pipe.cpp(54,43): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
-  TrainingFramework.vcxproj -> C:\Users\minhc\OneDrive\Máy tính\Gameloft\unnamed-repository\MiniGameStarter\\BIN-Nvidia\TrainingFramework.exe
+C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\TrainingFramework\Pipe.cpp(54,43): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+  GSPlay.cpp
+C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\TrainingFramework\src\GameStates\GSPlay.cpp(13,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\TrainingFramework\src\GameStates\GSPlay.cpp(14,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\TrainingFramework\src\GameStates\GSPlay.cpp(15,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\TrainingFramework\src\GameStates\GSPlay.cpp(58,45): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xutility(158,77): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=double
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2029): message : see reference to function template instantiation 'void std::_Construct_in_place<_Ty,std::shared_ptr<Shader>&,std::shared_ptr<Font>&,const char(&)[9],TextColor,double>(_Ty &,std::shared_ptr<Shader> &,std::shared_ptr<Font> &,const char (&)[9],TextColor &&,double &&) noexcept(false)' being compiled
+          with
+          [
+              _Ty=Text
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2748): message : see reference to function template instantiation 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<std::shared_ptr<Shader>&,std::shared_ptr<Font>&,const char(&)[9],TextColor,double>(std::shared_ptr<Shader> &,std::shared_ptr<Font> &,const char (&)[9],TextColor &&,double &&)' being compiled
+          with
+          [
+              _Ty=Text
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2748): message : see reference to function template instantiation 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<std::shared_ptr<Shader>&,std::shared_ptr<Font>&,const char(&)[9],TextColor,double>(std::shared_ptr<Shader> &,std::shared_ptr<Font> &,const char (&)[9],TextColor &&,double &&)' being compiled
+          with
+          [
+              _Ty=Text
+          ]
+C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\TrainingFramework\src\GameStates\GSPlay.cpp(68): message : see reference to function template instantiation 'std::shared_ptr<Text> std::make_shared<Text,std::shared_ptr<Shader>&,std::shared_ptr<Font>&,const char(&)[9],TextColor,double>(std::shared_ptr<Shader> &,std::shared_ptr<Font> &,const char (&)[9],TextColor &&,double &&)' being compiled
+  Generating Code...
+  TrainingFramework.vcxproj -> C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\BIN-Nvidia\TrainingFramework.exe

@@ -79,7 +79,7 @@ Vector2 Pipe::getLowerPipePos() {
 }
 
 bool Pipe::Scored(Vector2 pos , Vector2 size) {
-	if (pos.x + 160 >= (lowerPipe->Get2DPosition().x)  && !scored) {
+	if (pos.x - size.x/2 >= (lowerPipe->Get2DPosition().x)  && !scored) {
 		scored = true;
 		ResourceManagers::GetInstance()->PlaySound("sfx_point.wav");
 		return true;

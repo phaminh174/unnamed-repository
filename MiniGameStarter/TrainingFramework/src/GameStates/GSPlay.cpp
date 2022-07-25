@@ -34,6 +34,7 @@ Bird* bird;
 Pipe* pipe1;
 Pipe* pipe2;
 Foreground* foreground;
+FILE* fp;
 float timer = 0;
 bool gameOver;
 int score;
@@ -170,6 +171,17 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 void GSPlay::Update(float deltaTime)
 {
 	if (gameOver) {
+		int highscore = 0;
+		fp = fopen("../TrainingFramework/highscore.txt", "r");
+		fscanf(fp, "%d", &highscore);
+		fclose(fp);
+		if (score > highscore)
+		{
+			fp = fopen("highscore.txt", "w");
+			fprintf(fp, "%d", score);
+			fclose(fp);
+		}
+
 		bird->setGameOver(true);
 		pipe1->setGameOver(true);
 		pipe2->setGameOver(true);
@@ -180,7 +192,9 @@ void GSPlay::Update(float deltaTime)
 		}
 	}
 	// check va cham
-	if (bird->Get2DPosition().y < 0) gameOver = true;
+	if (bird->GetPosition().y < 0) {
+		gameOver = true;
+	}
 	if (bird->isCollided(pipe1->getLowerPipePos(), pipe1->GetSize())) {
 		gameOver = true;
 	}
@@ -203,7 +217,7 @@ void GSPlay::Update(float deltaTime)
 	// diem
 	if (!gameOver)
 	{
-		if (pipe1->Scored(bird->Get2DPosition(), bird->GetSize()) || pipe2->Scored(bird->Get2DPosition(), bird->GetSize())) {
+		if (pipe1->Scored(Vector2(bird->GetPosition().x , bird->GetPosition().y), bird->GetSize()) || pipe2->Scored(Vector2(bird->GetPosition().x, bird->GetPosition().y), bird->GetSize())) {
 			score++;
 			m_score->SetText("Score: " + tostr(score));
 		}

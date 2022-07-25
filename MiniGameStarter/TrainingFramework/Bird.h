@@ -20,6 +20,8 @@ public:
 	void Left(GLfloat deltatime, float v);
 	void Right(GLfloat deltatime, float v);
 	void setGameOver(bool i);
+	Vector3 GetPosition();
+	void	SetPosition(GLfloat x, GLfloat y);
 protected:
 	std::shared_ptr<Model> model;
 	std::shared_ptr<Shader> shader;
