@@ -22,7 +22,7 @@ Pipe::Pipe()
 	startFall = false;
 	scored = false;
 	gameOver = false;	
-	pos = rand() % (Globals::screenHeight / 2 - 200 - (-Globals::screenWidth / 2 + 100) + 1) + (-Globals::screenWidth / 2 + 100);
+	pos = rand() % (Globals::screenHeight / 2 - 225 - (-Globals::screenWidth / 2 + 100) + 1) + (-Globals::screenWidth / 2 + 100);
 	model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("LowerPipe.tga");
@@ -47,7 +47,7 @@ void Pipe::Moving(GLfloat deltatime) {
 	Vector3 upperPipePos = upperPipe->GetPosition();
 	if (upperPipePos.x < -40) {
 		upperPipePos.x = (float)Globals::screenWidth + 50;
-		pos = rand() % (Globals::screenHeight/2-200 - (-Globals::screenWidth/2+100) + 1) + (-Globals::screenWidth/2+100);
+		pos = rand() % (Globals::screenHeight/2-225 - (-Globals::screenWidth/2+100) + 1) + (-Globals::screenWidth/2+100);
 		scored = false;	
 	}
 	upperPipePos.x -= velocity * deltatime;

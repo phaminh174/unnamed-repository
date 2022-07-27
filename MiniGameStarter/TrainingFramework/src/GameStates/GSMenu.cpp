@@ -52,7 +52,7 @@ void GSMenu::Init()
 	m_listButton.push_back(button);
 	FILE* fp;
 	char highscore[8];
-	fp = fopen("../TrainingFramework/highscore.txt", "r");
+	fp = fopen("../Data/highscore.txt", "r");
 	fscanf(fp, "%s", highscore);
 	fclose(fp);
 
@@ -80,7 +80,7 @@ void GSMenu::Resume()
 {
 	FILE* fp;
 	char highscore[8];
-	fp = fopen("../TrainingFramework/highscore.txt", "r");
+	fp = fopen("../Data/highscore.txt", "r");
 	fscanf(fp, "%s", highscore);
 	fclose(fp);
 

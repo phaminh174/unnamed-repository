@@ -8,8 +8,8 @@
   ftsynth.c
   fttype1.c
   ftwinfnt.c
-  ftxf86.c
   ftlcdfil.c
+  ftxf86.c
   ftgxval.c
   ftotval.c
   ftpatent.c

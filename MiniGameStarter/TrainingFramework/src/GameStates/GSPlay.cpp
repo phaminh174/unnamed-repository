@@ -172,12 +172,12 @@ void GSPlay::Update(float deltaTime)
 {
 	if (gameOver) {
 		int highscore = 0;
-		fp = fopen("../TrainingFramework/highscore.txt", "r");
+		fp = fopen("../Data/highscore.txt", "r");
 		fscanf(fp, "%d", &highscore);
 		fclose(fp);
 		if (score > highscore)
 		{
-			fp = fopen("highscore.txt", "w");
+			fp = fopen("../Data/highscore.txt", "w");
 			fprintf(fp, "%d", score);
 			fclose(fp);
 		}
