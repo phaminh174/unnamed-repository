@@ -8,8 +8,8 @@
   ftsynth.c
   fttype1.c
   ftwinfnt.c
-  ftlcdfil.c
   ftxf86.c
+  ftlcdfil.c
   ftgxval.c
   ftotval.c
   ftpatent.c
@@ -37,4 +37,4 @@
   type42.c
   winfnt.c
   ftdebug.c
-  freetype.vcxproj -> C:\Users\han.glschool2\unnamed-repository\MiniGameStarter\freetype\objs\vc2019\Win32\freetype.lib
+  freetype.vcxproj -> C:\Users\minhc\OneDrive\Máy tính\Gameloft\unnamed-repository\MiniGameStarter\freetype\builds\windows\vc2019\.\..\..\..\objs\vc2019\Win32\freetype.lib
